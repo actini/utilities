@@ -1,0 +1,42 @@
+version: "3.6"
+
+services:
+  nginx:
+    image: nginx:mainline-alpine
+    ports:
+      - "443"
+    networks:
+      - frontend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: AoncEtwEmO
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  phpf-pm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - frontend
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+networks:
+  frontend:
+  backend:
