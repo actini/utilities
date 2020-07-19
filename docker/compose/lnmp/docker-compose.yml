@@ -3,8 +3,8 @@ version: "3.6"
 services:
   nginx:
     build:
-      context: ./dockerfiles/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./dockerfiles/nginx/Dockerfile
       args:
         SERVERROOT: public
         SERVERNAME: localhost
@@ -12,7 +12,6 @@ services:
       - nginx-ssl:/etc/nginx/ssl
     ports:
       - "80:80"
-      - "443:443"
     networks:
       - frontend
     deploy:
