@@ -2,9 +2,17 @@ version: "3.6"
 
 services:
   nginx:
-    image: nginx:mainline-alpine
+    build:
+      context: ./dockerfiles/nginx
+      dockerfile: Dockerfile
+      args:
+        SERVERROOT: public
+        SERVERNAME: localhost
+    volumes:
+      - nginx-ssl:/etc/nginx/ssl
     ports:
-      - "443"
+      - "80:80"
+      - "443:443"
     networks:
       - frontend
     deploy:
@@ -13,22 +21,24 @@ services:
         condition: on-failure
 
   mysql:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: AoncEtwEmO
+    build:
+      context: ./dockerfiles/mysql
+      dockerfile: Dockerfile
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
     networks:
       - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: password
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
 
-  phpf-pm:
+  php-fpm:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./dockerfiles/phpfpm/Dockerfile
     networks:
       - frontend
       - backend
@@ -40,3 +50,15 @@ services:
 networks:
   frontend:
   backend:
+
+volumes:
+  mysql-data:
+    driver_opts:
+      type: volume
+      device: /var/lib/mysql
+      o: bind
+  nginx-ssl:
+    driver_opts:
+      type: volume
+      device: /etc/nginx/ssl
+      o: bind
