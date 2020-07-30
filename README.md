@@ -16,7 +16,7 @@ curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu
 
 ### Set up reverse proxy with Nginx
 
-#### Proxy HTTP service of localhost:8000 on port 80
+Proxy HTTP service of localhost:8000 on port 80
 
 ```bash
 mkdir nginx-proxy && cd nginx-proxy
@@ -36,7 +36,7 @@ docker run -d \
 nginx-proxy:http
 ```
 
-#### Proxy HTTPS service of localhost:8000 on port 443
+Proxy HTTPS service of localhost:8000 on port 443
 
 ```bash
 mkdir nginx-proxy && cd nginx-proxy
@@ -59,7 +59,7 @@ docker run -d \
 nginx-proxy:https
 ```
 
-#### Proxy both HTTP and HTTPS service of localhost:8000 on port 80 and 443
+Proxy both HTTP and HTTPS service of localhost:8000 on port 80 and 443
 
 ```bash
 mkdir nginx-proxy && cd nginx-proxy
