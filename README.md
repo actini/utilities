@@ -14,6 +14,12 @@ curl https://raw.githubusercontent.com/actini/utilities/master/docker/ubuntu-ins
 curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubeadm.sh | sudo bash -x
 ```
 
+### Install Kubectl on Ubuntu
+
+```
+curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubectl.sh | sudo bash -x
+```
+
 ### Set up reverse proxy with Nginx
 
 Proxy HTTP service of localhost:8000 on port 80
