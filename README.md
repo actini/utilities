@@ -1,6 +1,13 @@
 # utilities
 
 
+### Install Mongo on Ubuntu
+
+```bash
+curl https://raw.githubusercontent.com/actini/utilities/master/mongo/ubuntu-install.sh | sudo bash -x
+```
+
+
 ### Install Docker on Ubuntu
 
 ```bash
