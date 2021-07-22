@@ -4,33 +4,33 @@
 ### Install Mongo on Ubuntu
 
 ```bash
-curl https://raw.githubusercontent.com/actini/utilities/master/mongo/ubuntu-install.sh | sudo bash -x
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/mongo/ubuntu-install.sh | sudo bash -x
 ```
 
 
 ### Install Docker on Ubuntu
 
 ```bash
-curl https://raw.githubusercontent.com/actini/utilities/master/docker/ubuntu-install.sh | sudo bash -x
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/docker/ubuntu-install.sh | sudo bash -x
 ```
 
 
 ### Install Kubeadm on Ubuntu
 
 ```bash
-curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubeadm.sh | sudo bash -x
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubeadm.sh | sudo bash -x
 ```
 
 ### Install Kubectl on Ubuntu
 
 ```
-curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubectl.sh | sudo bash -x
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-kubectl.sh | sudo bash -x
 ```
 
 ### Install Helm on Ubuntu
 
 ```
-curl https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-helm.sh | sudo bash -x
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/kubernetes/ubuntu-install-helm.sh | sudo bash -x
 ```
 
 ### Set up reverse proxy with Nginx
