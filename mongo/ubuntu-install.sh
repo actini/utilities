@@ -63,6 +63,7 @@ sudo getent passwd mongodb
 
 if [ $? == 0 ]
 then
+    sudo mkdir -p /var/lib/mongodb /var/log/mongodb
     sudo chown mongodb /var/lib/mongodb
     sudo chown mongodb /var/log/mongodb
 fi
