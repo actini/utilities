@@ -53,8 +53,8 @@ getent passwd mongodb
 
 if [ $? == 0 ]
 then
-    chown mongodb:mongodb /var/lib/mongodb
-    chown mongodb:mongodb /var/log/mongodb
+    sudo chown mongodb /var/lib/mongodb
+    sudo chown mongodb /var/log/mongodb
 fi
 
 service mongod start
