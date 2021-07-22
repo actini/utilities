@@ -35,7 +35,7 @@ echo -e "Installing MongoDB $version"
 
 sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
 
-sudo apt-get install -y --allow-change-held-packages mongodb-org=$version mongodb-org-server=$version mongodb-org-shell=$version mongodb-org-mongos=$version mongodb-org-tools=$version
+sudo apt-get install -y mongodb-org=$version mongodb-org-server=$version mongodb-org-shell=$version mongodb-org-mongos=$version mongodb-org-tools=$version
 
 echo "mongodb-org hold" | sudo dpkg --set-selections
 echo "mongodb-org-server hold" | sudo dpkg --set-selections
@@ -45,11 +45,11 @@ echo "mongodb-org-tools hold" | sudo dpkg --set-selections
 
 if [[ $version == 5* ]]
 then
-    sudo apt-get install -y --allow-change-held-packages mongodb-org-database=$version
+    sudo apt-get install -y mongodb-org-database=$version
     echo "mongodb-org-database hold" | sudo dpkg --set-selections
 fi
 
-getent passwd mongodb
+sudo getent passwd mongodb
 
 if [ $? == 0 ]
 then
@@ -57,7 +57,7 @@ then
     sudo chown mongodb /var/log/mongodb
 fi
 
-service mongod start
+sudo service mongod start
 
 if [ $? == 0 ]
 then
