@@ -1,20 +1,67 @@
 #! /bin/bash
+# bash ubuntu-install.sh 5.0.0
 
-hold=${1:-nohold}
+version=${1:-"latest"}
 
 sudo apt-get install gnupg
-wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
 
+wget -qO - https://www.mongodb.org/static/pgp/server-4.0.asc | sudo apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
 
 sudo apt-get update
-sudo apt-get install -y mongodb-org=4.4.1 mongodb-org-server=4.4.1 mongodb-org-shell=4.4.1 mongodb-org-mongos=4.4.1 mongodb-org-tools=4.4.1
 
-if [ $hold = 'hold' ]
+if [ $version == "latest" ]
 then
-  echo "mongodb-org hold" | sudo dpkg --set-selections
-  echo "mongodb-org-server hold" | sudo dpkg --set-selections
-  echo "mongodb-org-shell hold" | sudo dpkg --set-selections
-  echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
-  echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+    version=$(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}' | sort -r | head -1)
+else
+    list=$(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}')
+    if [ -z $(echo $list | grep $version) ]
+    then
+        echo -e "No MongoDB of version $version available!"
+        echo -e "Available versions are"
+        echo -e $list
+        exit 1
+    fi
+fi
+
+echo -e "Installing MongoDB $version"
+
+sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
+
+sudo apt-get install -y --allow-change-held-packages mongodb-org=$version mongodb-org-server=$version mongodb-org-shell=$version mongodb-org-mongos=$version mongodb-org-tools=$version
+
+echo "mongodb-org hold" | sudo dpkg --set-selections
+echo "mongodb-org-server hold" | sudo dpkg --set-selections
+echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+
+if [[ $version == 5* ]]
+then
+    sudo apt-get install -y --allow-change-held-packages mongodb-org-database=$version
+    echo "mongodb-org-database hold" | sudo dpkg --set-selections
+fi
+
+getent passwd mongodb
+
+if [ $? == 0 ]
+then
+    chown mongodb:mongodb /var/lib/mongodb
+    chown mongodb:mongodb /var/log/mongodb
+fi
+
+service mongod start
+
+if [ $? == 0 ]
+then
+    echo -e "MongoDB is running!"
+else
+    echo -e "MongoDB failed to start!"
 fi
