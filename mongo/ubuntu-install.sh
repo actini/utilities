@@ -33,6 +33,16 @@ fi
 
 echo -e "Installing MongoDB $version"
 
+if [ -z $(id -u mongodb) ]
+then
+    sudo useradd mongodb
+fi
+
+if [ -z $(id -g mongodb) ]
+then
+    sudo groupadd mongodb
+fi
+
 sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
 
 sudo apt-get install -y mongodb-org=$version mongodb-org-server=$version mongodb-org-shell=$version mongodb-org-mongos=$version mongodb-org-tools=$version
