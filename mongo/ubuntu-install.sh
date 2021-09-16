@@ -40,7 +40,10 @@ then
     sudo groupadd mongodb
 fi
 
-sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
+if [ -z $(apt-mark showhold | grep mongodb-org) ]
+then
+    sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
+fi
 
 sudo apt-get install -y mongodb-org=$version mongodb-org-server=$version mongodb-org-shell=$version mongodb-org-mongos=$version mongodb-org-tools=$version
 
