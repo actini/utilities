@@ -40,7 +40,7 @@ then
     sudo groupadd mongodb
 fi
 
-if [ -z $(apt-mark showhold | grep mongodb-org) ]
+if [ ! -z $(apt-mark showhold | grep mongodb-org) ]
 then
     sudo apt-mark unhold $(apt-mark showhold | grep mongodb-org)
 fi
