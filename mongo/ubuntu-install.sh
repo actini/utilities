@@ -19,12 +19,11 @@ if [ $version == "latest" ]
 then
     version=$(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}' | sort -r | head -1)
 else
-    list=$(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}')
-    if [ -z $(echo $list | grep $version) ]
+    if [ -z $(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}' | grep $version) ]
     then
         echo -e "No MongoDB of version $version available!"
         echo -e "Available versions are"
-        echo -e $list
+        echo -e $(apt show mongodb-org -a | grep Version | awk -F ": " '{print $2}')
         exit 1
     fi
 fi
