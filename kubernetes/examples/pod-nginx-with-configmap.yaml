@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: nginx-conf
 data:
-  default.conf:
+  default.conf: |
     server {
         listen       80;
         server_name  localhost;
