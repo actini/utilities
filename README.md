@@ -1,10 +1,16 @@
 # utilities
 
 
-### Install Python 3.8 on Ubuntu
+### Install Python on Ubuntu
 
 ```bash
-curl -fs https://raw.githubusercontent.com/actini/utilities/master/ubuntu-install-python38.sh | sudo bash -x
+# Default version (3.12)
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/python/ubuntu-install-python3.sh | bash -e
+```
+
+```bash
+# Specific version (3.10)
+curl -fs https://raw.githubusercontent.com/actini/utilities/master/python/ubuntu-install-python3.sh | bash -e -s - 3.10
 ```
 
 ### Install Mongo on Ubuntu
